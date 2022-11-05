@@ -25,21 +25,12 @@ namespace FileManagerAPI.Controllers
         {
             try
             {
-                string error = "Hubo un error al cargar el archivo";
-                var response = _fileRepository.UploadFile(file);
+                var response = await _fileRepository.UploadFile(file);
 
                 //ACA SE MAPEA DE DESTINO A FUENTE, CONTRARIO AL ARCHIVO FileMap
-                //var fileDTO = _mapper.Map<FileDTO>(response);
+                 //var fileDTO =  _mapper.Map<FileDTO>(response);
 
-
-                if(response != null)
-                {
-                    return Ok(response);
-                }
-                else
-                {
-                    return BadRequest(error);
-                }
+                return Ok(response);          
             }
             catch (Exception e)
             {
