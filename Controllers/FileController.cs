@@ -21,7 +21,7 @@ namespace FileManagerAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> FileUpload([FromForm] Files file)
+        public async Task<ActionResult<Files>> FileUpload([FromForm] Files file)
         {
             try
             {

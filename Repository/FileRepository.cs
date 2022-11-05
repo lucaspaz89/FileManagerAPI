@@ -15,7 +15,7 @@ namespace FileManagerAPI.Repository
         {
             _fileRoute = config.GetSection("Settings").GetSection("fileRoute").Value;
         }
-        public async Task<string> UploadFile(Files file)
+        public async Task<IFormFile> UploadFile(Files file)
         {
             string fileRoute = Path.Combine(_fileRoute, file.Archivo.FileName);//CREAMOS EL NOMBRE/RUTA ARCHIVO
             string fileName = file.Archivo.FileName;//ALMACENAMOS EL NOMBRE DEL ARCHIVO EN UNA VARIABLE
@@ -33,8 +33,8 @@ namespace FileManagerAPI.Repository
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
             }
-            var response = $"Se ha cargado el archivo con exito en la siguiente ubicacion: {fileRoute}";
-            return await Task.FromResult(response);
+            
+            return await Task.FromResult(file.Archivo);
         }
     }
 }
