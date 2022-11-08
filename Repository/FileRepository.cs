@@ -1,5 +1,6 @@
 ﻿using FileManagerAPI.DbConnection;
 using FileManagerAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -15,8 +16,9 @@ namespace FileManagerAPI.Repository
         {
             _fileRoute = config.GetSection("Settings").GetSection("fileRoute").Value;
         }
-        public async Task<IFormFile> UploadFile(Files file)
+        public async Task<bool> UploadFile(Files file)
         {
+            bool fileNameExists;
             string fileRoute = Path.Combine(_fileRoute, file.Archivo.FileName);//CREAMOS EL NOMBRE/RUTA ARCHIVO
             string fileName = file.Archivo.FileName;//ALMACENAMOS EL NOMBRE DEL ARCHIVO EN UNA VARIABLE
             using FileStream newFile = File.Create(fileRoute);//CREAMOS UN NUEVO ARCHIVO CON EL NOMBRE/RUTA CREADOS ANTERIORMENTE; 
@@ -30,11 +32,21 @@ namespace FileManagerAPI.Repository
                 var cmd = new SqlCommand("SP_UploadFile", cn);
                 cmd.Parameters.AddWithValue("Ruta", fileRoute);
                 cmd.Parameters.AddWithValue("NombreArchivo", fileName);
+                cmd.Parameters.Add("Registrado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.ExecuteNonQuery();
+                fileNameExists = (bool)cmd.Parameters["Registrado"].Value;
             }
-            
-            return await Task.FromResult(file.Archivo);
+
+            if (fileNameExists)
+            {
+                return await Task.FromResult(fileNameExists);
+            }                
+            else
+            {
+                return await Task.FromResult(fileNameExists);
+            }
+                
         }
     }
 }

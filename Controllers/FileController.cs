@@ -29,8 +29,15 @@ namespace FileManagerAPI.Controllers
 
                 //ACA SE MAPEA DE DESTINO A FUENTE, CONTRARIO AL ARCHIVO FileMap
                  //var fileDTO =  _mapper.Map<FileDTO>(response);
-
-                return Ok(response);          
+                if(response)
+                {
+                    return Ok("Se ha cargado el archivo correctamente");
+                }
+                else
+                {
+                    return BadRequest("El nombre del archivo ya existe");
+                }
+                          
             }
             catch (Exception e)
             {
