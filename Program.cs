@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    //RGISTRAR AUTOMAPPER
-    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    ////RGISTRAR AUTOMAPPER
+    //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
     //Depency injection for repository use
     builder.Services.AddScoped<IFileRepository, FileRepository>();

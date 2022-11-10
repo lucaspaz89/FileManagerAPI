@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using FileManagerAPI.Models;
+﻿using FileManagerAPI.Models;
 using FileManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +17,18 @@ namespace FileManagerAPI.Controllers
             _fileRepository = fileRepository;
 
         }
+
+        //public async Task<IActionResult> getS()
+        //{
+        //    try
+        //    {
+        //        var 
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
 
         [HttpPost]
         public async Task<ActionResult<Files>> FileUpload([FromForm] Files file)
