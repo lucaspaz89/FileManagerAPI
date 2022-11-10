@@ -1,4 +1,4 @@
-﻿namespace FileManagerAPI.DbConnection
+﻿namespace FileManagerAPI.Helpers
 {
     public class SQLString
     {

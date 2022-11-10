@@ -14,7 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
     //Depency injection for repository use
     builder.Services.AddScoped<IFileRepository, FileRepository>();
-    
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+
 }
 
 
