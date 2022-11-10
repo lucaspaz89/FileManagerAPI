@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FileManagerAPI.DTOs;
 using FileManagerAPI.Models;
 using FileManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
@@ -12,12 +11,12 @@ namespace FileManagerAPI.Controllers
     public class FileController : ControllerBase
     {
         private readonly IFileRepository _fileRepository;
-        private readonly IMapper _mapper;
 
-        public FileController(IFileRepository fileRepository, IMapper mapper)
+
+        public FileController(IFileRepository fileRepository)
         {
             _fileRepository = fileRepository;
-            _mapper = mapper;
+
         }
 
         [HttpPost]
@@ -27,9 +26,8 @@ namespace FileManagerAPI.Controllers
             {
                 var response = await _fileRepository.UploadFile(file);
 
-                //ACA SE MAPEA DE DESTINO A FUENTE, CONTRARIO AL ARCHIVO FileMap
-                 //var fileDTO =  _mapper.Map<FileDTO>(response);
-                if(response)
+
+                if (response)
                 {
                     return Ok("Se ha cargado el archivo correctamente");
                 }
@@ -37,7 +35,7 @@ namespace FileManagerAPI.Controllers
                 {
                     return BadRequest("El nombre del archivo ya existe");
                 }
-                          
+
             }
             catch (Exception e)
             {
