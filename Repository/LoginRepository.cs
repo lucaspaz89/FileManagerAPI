@@ -1,5 +1,6 @@
 ﻿using FileManagerAPI.Helpers;
 using FileManagerAPI.Models;
+using FileManagerAPI.Repository.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -7,35 +8,58 @@ namespace FileManagerAPI.Repository
 {
     public class LoginRepository : ILoginRepository
     {
+        //CODIGOS REUTILIZABLES, ESTAN EN LA CARPETA "HELPERS"
         SQLString sqlString = new(); //INSTANCIA PARA ACCEDER A LA CADENA DE CONEXION
-        Encrypt encrypt = new(); //INSTANCIA PARA ENCRIPTAR LA CONTRASEÑA
+        Encrypt encrypt = new(); //INSTANCIA PARA ENCRIPTAR LA CONTRASEÑA        
+        JWTConfiguration jwtString = new();  //INSTANCIA PARA APLICAR EL JWT
 
-        public async Task<int> Login(UserLogin user)
+        public async Task<string> Login(UserLogin user)
         {
-            int res;
-
-            user.UserPassword = encrypt.ConvertirSHA256(user.UserPassword);
-
-            using (SqlConnection cn = new(sqlString.GetCadenaSQL()))
+            try
             {
-                cn.Open();
-                var cmd = new SqlCommand("SP_Login", cn);
-                cmd.Parameters.AddWithValue("Email", user.Email);
-                cmd.Parameters.AddWithValue("UserPassword", user.UserPassword);
-                cmd.CommandType = CommandType.StoredProcedure;
+                string res;
 
-                user.UserId = Convert.ToInt32(cmd.ExecuteScalar());
+                user.UserPassword = encrypt.ConvertirSHA256(user.UserPassword);
 
-                res = user.UserId;
+                using (SqlConnection cn = new(sqlString.GetCadenaSQL()))
+                {
+                    cn.Open();
+                    var cmd = new SqlCommand("SP_Login", cn);
+                    cmd.Parameters.AddWithValue("Email", user.Email);
+                    cmd.Parameters.AddWithValue("UserPassword", user.UserPassword);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    user.UserId = Convert.ToInt32(cmd.ExecuteScalar());
+
+                }
+
+                if (user.UserId != 0)
+                {
+                    //LLAMAMOS AL METODO QUE GENERO EL JWT Y LO ALMACENAMOS EN "res"
+                    res = jwtString.token(user);
+                }
+                else
+                {
+                    res = "Error";
+                }
 
                 return await Task.FromResult(res);
+            }
+            catch (Exception e)
+            {
 
+                throw new Exception(e.Message.ToString());
             }
 
         }
 
     }
 }
+
+
+//res = user.UserId;
+
+//return await Task.FromResult(res);
 
 
 

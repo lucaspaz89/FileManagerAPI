@@ -1,5 +1,5 @@
 ﻿using FileManagerAPI.Models;
-using FileManagerAPI.Repository;
+using FileManagerAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,11 +46,11 @@ namespace FileManagerAPI.Controllers
         {
             try
             {
-                int response = await _loginRepository.Login(user);
+                string response = await _loginRepository.Login(user);
 
-                if (response != 0)
+                if (response != "Error")
                 {
-                    return Ok($"El ID del usuario ingresado es {response}");
+                    return Ok($"Token creado con exito: {response}");
                 }
                 else
                 {

@@ -1,6 +1,6 @@
 ﻿using FileManagerAPI.Helpers;
 using FileManagerAPI.Models;
-using Microsoft.AspNetCore.Mvc;
+using FileManagerAPI.Repository.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -8,14 +8,17 @@ namespace FileManagerAPI.Repository
 {
     public class FileRepository : IFileRepository
     {
+        //CODIGOS REUTILIZABLES, ESTAN EN LA CARPETA "HELPERS"
         SQLString sqlString = new(); //INSTANCIA PARA ACCEDER A LA CADENA DE CONEXION
 
-        private readonly string _fileRoute; //INSTANCIA PARA ACCEDER A LA RUTA DONDE SE GUARADARA EL ARCHIVO
 
+        private readonly string _fileRoute; //INSTANCIA PARA ACCEDER A LA RUTA DONDE SE GUARADARA EL ARCHIVO
         public FileRepository(IConfiguration config)
         {
             _fileRoute = config.GetSection("Settings").GetSection("fileRoute").Value;
         }
+
+
         public async Task<bool> UploadFile(Files file)
         {
             bool fileNameExists;
@@ -41,12 +44,12 @@ namespace FileManagerAPI.Repository
             if (fileNameExists)
             {
                 return await Task.FromResult(fileNameExists);
-            }                
+            }
             else
             {
                 return await Task.FromResult(fileNameExists);
             }
-                
+
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using FileManagerAPI.Models;
 
-namespace FileManagerAPI.Repository
+namespace FileManagerAPI.Repository.Interfaces
 {
     public interface IUserRepository
     {

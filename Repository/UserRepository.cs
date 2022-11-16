@@ -1,5 +1,6 @@
 ﻿using FileManagerAPI.Helpers;
 using FileManagerAPI.Models;
+using FileManagerAPI.Repository.Interfaces;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -8,6 +9,7 @@ namespace FileManagerAPI.Repository
 {
     public class UserRepository : IUserRepository
     {
+        //CODIGOS REUTILIZABLES, ESTAN EN LA CARPETA "HELPERS"
         SQLString sqlString = new(); //INSTANCIA PARA ACCEDER A LA CADENA DE CONEXION
         Encrypt encrypt = new(); //INSTANCIA PARA ENCRIPTAR LA CONTRASEÑA
 
