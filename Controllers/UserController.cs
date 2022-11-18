@@ -1,5 +1,6 @@
 ﻿using FileManagerAPI.Helpers;
 using FileManagerAPI.Models;
+using FileManagerAPI.Repository;
 using FileManagerAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,16 +30,13 @@ namespace FileManagerAPI.Controllers
             {
                 var response = await _userRepository.CreateUser(user);
 
-                if (response)
+                if (!response)
                 {
-                    return Ok("Se ha creado el usuario exitosamente");
+                    return NoContent();
                 }
                 else
                 {
-                    return BadRequest(new
-                    {
-                        message = "El email ya existe"
-                    }); 
+                    return Ok("Se ha creado el usuario exitosamente");
                 }
             }
             catch (Exception e)
@@ -102,6 +100,9 @@ namespace FileManagerAPI.Controllers
                 int userId = int.Parse(token.Issuer);
 
                 var user = await _loginRepository.GetById(userId);
+
+                //TODO
+                //var currentUser = aqui deberia llamar a un metodo que liste los usuarios de la base de datos
 
                 return Ok(user);
             }
