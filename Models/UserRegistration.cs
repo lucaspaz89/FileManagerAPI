@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace FileManagerAPI.Models
 {
@@ -11,10 +12,12 @@ namespace FileManagerAPI.Models
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        public string UserPassword { get; set; }= string.Empty;
+        [JsonIgnore]
+        public string UserPassword { get; set; } = string.Empty;
 
         [Required]
         [Compare("UserPassword")]
-        public string ConfirmPassword { get; set; }= string.Empty;
+        [JsonIgnore]
+        public string ConfirmPassword { get; set; } = string.Empty;
     }
 }

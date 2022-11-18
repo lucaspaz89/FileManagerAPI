@@ -36,7 +36,7 @@ namespace FileManagerAPI.Repository
                 if (user.UserId != 0)
                 {
                     //LLAMAMOS AL METODO QUE GENERO EL JWT Y LO ALMACENAMOS EN "res"
-                    res = jwtString.token(user);
+                    res = jwtString.token(user.UserId);
                 }
                 else
                 {
@@ -51,6 +51,25 @@ namespace FileManagerAPI.Repository
                 throw new Exception(e.Message.ToString());
             }
 
+        }
+
+        public async Task<int> GetById(int user)
+        {
+            int id;
+            UserLogin obUser = new();
+            using (SqlConnection cn = new(sqlString.GetCadenaSQL()))
+            {
+                cn.Open();
+                var cmd = new SqlCommand("SP_GetByID", cn);
+                cmd.Parameters.AddWithValue("UserId", user);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.ExecuteNonQuery();
+
+                id = user;
+
+            }
+
+            return await Task.FromResult(id);
         }
 
     }

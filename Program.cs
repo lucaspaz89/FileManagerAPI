@@ -1,3 +1,4 @@
+using FileManagerAPI.Helpers;
 using FileManagerAPI.Repository;
 using FileManagerAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -39,7 +40,12 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddCors(options =>
 
-    options.AddPolicy("AllowWebApp", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+    options.AddPolicy("AllowWebApp", builder => builder
+                                       .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8080", "http://localhost:4200", "http://localhost:5173" })
+                                       .AllowCredentials()
+                                       .AllowAnyHeader()
+                                       .AllowAnyMethod()
+                                       ));
     //--------------------------------------------CONFIGURACION CORS END--------------------------------------------//
 
 
@@ -86,6 +92,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IFileRepository, FileRepository>();
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+    builder.Services.AddScoped<JWTConfiguration>();
 
 }
 
