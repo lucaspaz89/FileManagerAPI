@@ -192,6 +192,8 @@ builder.Services.AddCors(opt =>
         });
 });
 
+//aca esta el arreglo
+
 //--------------------------------------------CONFIGURACION CORS END--------------------------------------------//
 
 
