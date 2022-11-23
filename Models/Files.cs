@@ -7,6 +7,5 @@
         public string ArchivoNombre { get; set; } = string.Empty;
         public IFormFile Archivo { get; set; }
 
-
     }
 }
