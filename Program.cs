@@ -38,14 +38,27 @@ var builder = WebApplication.CreateBuilder(args);
 
     //--------------------------------------------CONFIGURACION CORS START--------------------------------------------//
 
-    builder.Services.AddCors(options =>
+    //builder.Services.AddCors(options =>
 
-    options.AddPolicy("AllowWebApp", builder => builder
-                                       .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8080", "http://localhost:4200", "http://localhost:5173" })
-                                       .AllowCredentials()
-                                       .AllowAnyHeader()
-                                       .AllowAnyMethod()
-                                       ));
+    //options.AddPolicy("AllowWebApp", builder => builder
+    //                                   .WithOrigins(new[] { "http://localhost:3000", "http://localhost:8080", "http://localhost:4200", "http://localhost:5173" })
+    //                                   .AllowCredentials()
+    //                                   .AllowAnyHeader()
+    //                                   .AllowAnyMethod()
+    //                                   ));
+
+    var misReglasCors = "AllowWebApp";
+    builder.Services.AddCors(opt =>
+    {
+        opt.AddPolicy(name: misReglasCors,
+            builder => {
+                builder.WithOrigins("http://localhost:5173")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+                //builder.AllowAnyOrigin()
+            });
+    });
+
     //--------------------------------------------CONFIGURACION CORS END--------------------------------------------//
 
 
